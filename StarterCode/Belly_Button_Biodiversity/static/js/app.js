@@ -22,6 +22,24 @@ function buildCharts(sample) {
     // @TODO: Build a Bubble Chart using the sample data
 
     // @TODO: Build a Pie Chart
+        var samples_url = '/samples/';
+        Plotly.d3.json((samples_url + sample), function(error, response) {
+            var trace = {
+                // slice the first 10 (top 10) for pie chart
+                values: response['sample_values'].slice(0,10),
+                labels: response['otu_ids'].slice(0,10),
+                type: 'pie'
+            }
+            var layout = {
+                title: "Top 10 Bacteria in Sample " + sample,
+                width: 500,
+                height: 500
+            }
+            var piedata = [trace]
+            // plot it
+            Plotly.newPlot('pie', piedata, layout)
+        });
+
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
 }
@@ -41,6 +59,7 @@ function init() {
 
     // Use the first sample from the list to build the initial plots
     const firstSample = sampleNames[0];
+    console.log(firstSample);
     buildCharts(firstSample);
     buildMetadata(firstSample);
   });
