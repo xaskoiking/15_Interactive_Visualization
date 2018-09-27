@@ -17,12 +17,33 @@ function buildMetadata(sample) {
 
 function buildCharts(sample) {
 
-  // @TODO: Use `d3.json` to fetch the sample data for the plots
+    var samples_url = '/samples/' + sample;
+   // @TODO: Use `d3.json` to fetch the sample data for the plots
 
-    // @TODO: Build a Bubble Chart using the sample data
-
-    // @TODO: Build a Pie Chart
+     // @TODO: Build a Bubble Chart using the sample data
         var samples_url = '/samples/';
+        Plotly.d3.json((samples_url + sample), function(error, response) {
+            var trace = {
+                x: response['otu_ids'],
+                y: response['sample_values'],
+                mode: 'markers',
+                marker: { 
+                          size: response['sample_values'],
+                          color:response['otu_ids']
+                          },
+  
+                text:response['otu_labels']
+            }
+            var bubbleData = [trace]
+            // plot it
+            Plotly.newPlot('bubble', bubbleData)
+        });
+
+
+
+     // @TODO: Build a Pie Chart
+     // HINT: You will need to use slice() to grab the top 10 sample_values,
+     // otu_ids, and labels (10 each).
         Plotly.d3.json((samples_url + sample), function(error, response) {
             var trace = {
                 // slice the first 10 (top 10) for pie chart
@@ -40,8 +61,7 @@ function buildCharts(sample) {
             Plotly.newPlot('pie', piedata, layout)
         });
 
-    // HINT: You will need to use slice() to grab the top 10 sample_values,
-    // otu_ids, and labels (10 each).
+   
 }
 
 function init() {
