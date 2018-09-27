@@ -28,10 +28,10 @@ function buildCharts(sample) {
                 // slice the first 10 (top 10) for pie chart
                 values: response['sample_values'].slice(0,10),
                 labels: response['otu_ids'].slice(0,10),
+                hovertext: response['otu_labels'].slice(0,10),
                 type: 'pie'
             }
             var layout = {
-                title: "Top 10 Bacteria in Sample " + sample,
                 width: 500,
                 height: 500
             }
