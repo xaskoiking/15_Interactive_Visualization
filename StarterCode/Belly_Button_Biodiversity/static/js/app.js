@@ -1,15 +1,31 @@
 function buildMetadata(sample) {
 
   // @TODO: Complete the following function that builds the metadata panel
+    var metadata_URL = '/metadata/' + sample;
+    // Use `d3.json` to fetch the metadata for a sample
+            Plotly.d3.json((metadata_URL), function(error, response) {
+                  // Use d3 to select the panel with id of `#sample-metadata`
+                   var metadataVal = d3.select('#sample-metadata');
 
-  // Use `d3.json` to fetch the metadata for a sample
-    // Use d3 to select the panel with id of `#sample-metadata`
+                   // Use `.html("") to clear any existing metadata
+                    metadataVal.html("");
 
-    // Use `.html("") to clear any existing metadata
+                    // Use `Object.entries` to add each key and value pair to the panel
+                    Object.entries(response).forEach(([key, value]) => {
+                     // Hint: Inside the loop, you will need to use d3 to append new
+                     // tags for each key-value in the metadata.
 
-    // Use `Object.entries` to add each key and value pair to the panel
-    // Hint: Inside the loop, you will need to use d3 to append new
-    // tags for each key-value in the metadata.
+                     d3.select('#sample-metadata')
+                          .append('p')
+                          .text(key + ":" + value);
+              });
+          });
+
+
+  
+
+
+   
 
     // BONUS: Build the Gauge Chart
     // buildGauge(data.WFREQ);
@@ -35,7 +51,6 @@ function buildCharts(sample) {
                 text:response['otu_labels']
             }
             var bubbleData = [trace]
-            // plot it
             Plotly.newPlot('bubble', bubbleData)
         });
 
@@ -46,7 +61,6 @@ function buildCharts(sample) {
      // otu_ids, and labels (10 each).
         Plotly.d3.json((samples_url + sample), function(error, response) {
             var trace = {
-                // slice the first 10 (top 10) for pie chart
                 values: response['sample_values'].slice(0,10),
                 labels: response['otu_ids'].slice(0,10),
                 hovertext: response['otu_labels'].slice(0,10),
@@ -57,11 +71,8 @@ function buildCharts(sample) {
                 height: 500
             }
             var piedata = [trace]
-            // plot it
             Plotly.newPlot('pie', piedata, layout)
         });
-
-   
 }
 
 function init() {
