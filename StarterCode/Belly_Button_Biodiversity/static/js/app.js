@@ -21,12 +21,6 @@ function buildMetadata(sample) {
               });
           });
 
-
-  
-
-
-   
-
     // BONUS: Build the Gauge Chart
     // buildGauge(data.WFREQ);
 }
@@ -50,8 +44,27 @@ function buildCharts(sample) {
   
                 text:response['otu_labels']
             }
-            var bubbleData = [trace]
-            Plotly.newPlot('bubble', bubbleData)
+            var bubbleData = [trace];
+            var layout = {
+              xaxis: {
+                title: 'OUT ID',
+                titlefont: {
+                  family: 'Courier New, monospace',
+                  size: 18,
+                  color: '#7f7f7f'
+                }
+              },
+              yaxis: {
+                title: 'Sample Values',
+                titlefont: {
+                  family: 'Courier New, monospace',
+                  size: 18,
+                  color: '#7f7f7f'
+                }
+              }
+            };
+
+            Plotly.newPlot('bubble', bubbleData, layout)
         });
 
 
